@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar'
 import MainDash from './main/page'
 
 
-const page = ({ children }) => {
+const Page = ({ children }) => {
 
  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

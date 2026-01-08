@@ -26,8 +26,8 @@ export default function RootLayout({ children }) {
         <ClientLayout>
           {children}
         </ClientLayout>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eBodEB/teleU6CTGjbzqLAhzFHNvZEkg==" crossOrigin="anonymous" referrerPolicy="no-referrer"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js" integrity="sha512-7A6gQe/1y1dYJUeB3_29JCE8DuDnsB3BC2Kj3_e5dI7B29T1D5QG2YjB+gS0G3L+iK3_2Q9o5Zg5SjB/HI0fQ==" crossOrigin="anonymous" referrerPolicy="no-referrer"></script>
+        {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eBodEB/teleU6CTGjbzqLAhzFHNvZEkg==" crossOrigin="anonymous" referrerPolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js" integrity="sha512-7A6gQe/1y1dYJUeB3_29JCE8DuDnsB3BC2Kj3_e5dI7B29T1D5QG2YjB+gS0G3L+iK3_2Q9o5Zg5SjB/HI0fQ==" crossOrigin="anonymous" referrerPolicy="no-referrer"></script> */}
       </body>
     </html>
   );

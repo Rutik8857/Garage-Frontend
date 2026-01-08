@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import EstimationModal from "./components/EstimationModal";
+import EstimationModal from "../components/EstimationModal";
 
 export default function TestPage() {
   const [isOpen, setIsOpen] = useState(false);

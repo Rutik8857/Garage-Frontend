@@ -375,7 +375,7 @@ export default function JobCardsPage() {
               </div>
             ) : filteredCards.length === 0 ? (
               <div className="text-center py-16 text-gray-500">
-                <p>No job cards found for "{activeTab}" status.</p>
+                <p>No job cards found for {`"${activeTab}"`} status.</p>
               </div>
             ) : (
               <>

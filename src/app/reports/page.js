@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
 const CalendarIcon = () => (
@@ -150,7 +150,7 @@ export default function ReportsAndSearch() {
           <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <h1 className="text-3xl font-bold text-gray-800">Reports & Search</h1>
             <nav className="text-sm text-gray-500 mt-2 md:mt-0">
-              <a href="/" className="text-blue-600 hover:underline">Home</a>
+              <Link href="/" className="text-blue-600 hover:underline">Home</Link>
               <span className="mx-2">/</span>
               <span>Reports & Search</span>
             </nav>

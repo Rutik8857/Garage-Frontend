@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Axios from 'axios';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-
+import Link from 'next/link';
 // Use environment variable in a real app
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ;
 
@@ -120,7 +120,7 @@ export default function JobWashingListPage() {
                     <header className="flex justify-between items-center mb-6">
                         <h1 className="text-2xl font-bold text-gray-800">Washing Jobs</h1>
                         <div className="text-sm text-gray-500">
-                            <a href="/" className="text-blue-600 hover:underline">Home</a>
+                            <Link href="/" className="text-blue-600 hover:underline">Home</Link>
                             <span className="mx-2">/</span>
                             <span>Washing Jobs</span>
                         </div>
