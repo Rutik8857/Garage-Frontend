@@ -155,7 +155,8 @@ export default function Dashboard() {
     const fetchStatusCounts = async () => {
       setPieLoading(true);
       try {
-        let url = buildApiUrl('/api/dashboard/status-counts');
+        // server route is /api/dashboard/jobcard-status
+        let url = buildApiUrl('/api/dashboard/jobcard-status');
         
         if (pieDateRange.startDate && pieDateRange.endDate) {
           url += `?startDate=${pieDateRange.startDate}&endDate=${pieDateRange.endDate}`;
@@ -194,7 +195,8 @@ export default function Dashboard() {
         const revenueUrl = buildApiUrl(`/api/dashboard/monthly-revenue?filter=${encodeURIComponent(revenueFilter)}`);
         const finalRevenueUrl = ensureAbsoluteUrl(revenueUrl);
         console.log('Fetching monthly revenue from:', finalRevenueUrl);
-        const response = await axios.get(finalRevenueUrl, { timeout: 5000 });
+        // Increase timeout to handle slower responses in dev/production
+        const response = await axios.get(finalRevenueUrl, { timeout: 20000 });
         if (response && response.data && response.data.success) {
           setBarData(response.data.data);
         }
