@@ -4,738 +4,1234 @@
 
 
 
-"use client";
+// "use client";
 
 
 
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 
-import Link from "next/link";
+// import Link from "next/link";
 
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 
-import {
+// import {
 
-  ChevronDown,
+//   ChevronDown,
 
-  Briefcase,
+//   Briefcase,
 
-  WashingMachine,
+//   WashingMachine,
 
-  Boxes,
+//   Boxes,
 
-  Car,
+//   Car,
 
-  Users,
+//   Users,
 
-  BarChart3,
+//   BarChart3,
 
-  BookCopy,
+//   BookCopy,
 
-  FileText,
+//   FileText,
 
-  UserCog,
+//   UserCog,
 
-  MessageSquareQuote,
+//   MessageSquareQuote,
 
-  LogOut,
+//   LogOut,
 
-  Search,
+//   Search,
 
-  Menu,
+//   Menu,
 
-  X,
+//   X,
 
-} from "lucide-react";
+// } from "lucide-react";
 
 
 
-// --- (menuItems, ProfileIcon, Profile components remain exactly the same) ---
+// // --- (menuItems, ProfileIcon, Profile components remain exactly the same) ---
 
-const menuItems = [
+// const menuItems = [
 
-  {
+//   {
 
-    label: "Job Cards",
+//     label: "Job Cards",
 
-    icon: Briefcase,
+//     icon: Briefcase,
 
-    href: "/jobcard",
+//     href: "/jobcard",
 
-    submenu: [
+//     submenu: [
 
-      { label: "Create New Job Card", href: "/Cards/layout" },
+//       { label: "Create New Job Card", href: "/Cards/layout" },
 
-      { label: "View All Job Cards", href: "/JobCardList/layout" },
+//       { label: "View All Job Cards", href: "/JobCardList/layout" },
 
-    ],
+//     ],
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Washing JobCard",
+//     label: "Washing JobCard",
 
-    icon: WashingMachine,
+//     icon: WashingMachine,
 
-    href: "/Washing",
+//     href: "/Washing",
 
-    submenu: [
+//     submenu: [
 
-      { label: "Create Washing Card", href: "/Washing/layout" },
+//       { label: "Create Washing Card", href: "/Washing/layout" },
 
-      { label: "View Washing Cards", href: "/JobWashingList/layout" },
+//       { label: "View Washing Cards", href: "/JobWashingList/layout" },
 
-    ],
+//     ],
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Washing Card Service",
+//     label: "Washing Card Service",
 
-    icon: WashingMachine,
+//     icon: WashingMachine,
 
-    href: "/Washing",
+//     href: "/Washing",
 
-    submenu: [
+//     submenu: [
 
-      { label: "New Card", href: "/WashingServiceNewCard/layout" },
+//       { label: "New Card", href: "/WashingServiceNewCard/layout" },
 
-      { label: "Washing Cards", href: "/WashingServicesCards/layout" },
+//       { label: "Washing Cards", href: "/WashingServicesCards/layout" },
 
-    ],
+//     ],
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Jobs/Spares/Oils Stock",
+//     label: "Jobs/Spares/Oils Stock",
 
-    icon: Boxes,
+//     icon: Boxes,
 
-    href: "/stock/layout",
+//     href: "/stock/layout",
 
-    isNew: true,
+//     isNew: true,
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Make, Model, Variant",
+//     label: "Make, Model, Variant",
 
-    icon: Car,
+//     icon: Car,
 
-    href: "/M_M_V/layout",
+//     href: "/M_M_V/layout",
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Customers",
+//     label: "Customers",
 
-    icon: Users,
+//     icon: Users,
 
-    href: "/Customers/layout",
+//     href: "/Customers/layout",
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Reports & Search",
+//     label: "Reports & Search",
 
-    icon: BarChart3,
+//     icon: BarChart3,
 
-    href: "/reports/layout",
+//     href: "/reports/layout",
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Balance Sheet (Ledger)",
+//     label: "Balance Sheet (Ledger)",
 
-    icon: BookCopy,
+//     icon: BookCopy,
 
-    href: "/Balance_sheet/layout",
+//     href: "/Balance_sheet/layout",
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Quotations",
+//     label: "Quotations",
 
-    icon: FileText,
+//     icon: FileText,
 
-    href: "/Quatation/layout",
+//     href: "/Quatation/layout",
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "Staff Management",
+//     label: "Staff Management",
 
-    icon: UserCog,
+//     icon: UserCog,
 
-    href: "/employee",
+//     href: "/employee",
 
-    submenu: [
+//     submenu: [
 
-      { label: "Add New Employee", href: "/StaffManageNewEmp/layout" },
+//       { label: "Add New Employee", href: "/StaffManageNewEmp/layout" },
 
-      { label: "Employees List", href: "/StaffManageEmp/layout" },
+//       { label: "Employees List", href: "/StaffManageEmp/layout" },
 
-    ],
+//     ],
 
-  },
+//   },
 
-  {
+//   {
 
-    label: "SMS Marketing",
+//     label: "SMS Marketing",
 
-    icon: MessageSquareQuote,
+//     icon: MessageSquareQuote,
 
-    href: "/SMS/layout",
+//     href: "/SMS/layout",
 
-    isNew: true,
+//     isNew: true,
 
-    submenu: [
+//     submenu: [
 
-      { label: "Send SMS", href: "/SMS/layout" },
+//       { label: "Send SMS", href: "/SMS/layout" },
 
-      { label: "SMS List", href: "/SendSMS/layout" },
+//       { label: "SMS List", href: "/SendSMS/layout" },
 
-    ],
+//     ],
 
-  },
+//   },
 
-];
+// ];
 
 
 
-const ProfileIcon = () => (
+// const ProfileIcon = () => (
 
-  <img
+//   <img
 
-    src="/miracle_logo.png"
+//     src="/miracle_logo.png"
 
-    alt="Company Logo"
+//     alt="Company Logo"
 
-    className="w-12 h-12 object-contain"
+//     className="w-12 h-12 object-contain"
 
-  />
+//   />
 
-);
+// );
 
 
+// const Profile = ({ userImage }) => {
+//   const getBaseUrl = () => {
+//     if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+//     if (typeof window !== 'undefined') {
+//       return window.location.origin.replace(':3000', ':3001');
+//     }
+//     return "http://localhost:3001";
+//   };
 
-const Profile = () => (
+//   const API_URL = getBaseUrl().replace(/\/$/, '');
 
-  <img
+//   const buildUserSrc = (img) => {
+//     if (!img) return null;
+//     if (/^https?:\/\//i.test(img)) return img;
 
-    src="/profile-logo.jpg"
+//     const cleaned = img.replace(/\\/g, '/').replace(/^public\//i, '').replace(/^\/+/, '/');
 
-    alt="User Profile"
+//     if (!cleaned.includes('/uploads')) {
+//       // assume filename only
+//       return `${API_URL.replace(/\/$/, '')}/uploads/profile/${cleaned.replace(/^\/+/, '')}`;
+//     }
 
-    className="w-10 h-10 rounded-full object-cover"
+//     return `${API_URL.replace(/\/$/, '')}${cleaned}`;
+//   };
 
-  />
+//   const candidates = [
+//     buildUserSrc(userImage),
+//     // frontend public assets
+//     "/profile-logo.jpg",
+//     "/miracle_logo.png",
+//   ].filter(Boolean);
 
-);
+//   const [idx, setIdx] = useState(0);
 
-// --- (End of unchanged components) ---
+//   useEffect(() => {
+//     // reset to first candidate when `userImage` changes
+//     setIdx(0);
+//   }, [userImage]);
 
+//   const src = candidates[idx] || "/miracle_logo.png";
 
+//   const handleImgError = () => {
+//     setIdx((i) => (i + 1 < candidates.length ? i + 1 : i));
+//   };
 
-export default function Sidebar() {
+//   return (
+//     <img
+//       src={src}
+//       alt="User Profile"
+//       onError={handleImgError}
+//       className="w-10 h-10 rounded-full object-cover"
+//     />
+//   );
+// };
 
-  const pathname = usePathname();
 
 
+// // --- (End of unchanged components) ---
 
-  // Initialize visible by default
 
-  const [isOpen, setIsOpen] = useState(true);
+
+// export default function Sidebar() {
+
+//   const pathname = usePathname();
+
+
+
+//   // Initialize visible by default
+
+//   const [isOpen, setIsOpen] = useState(true);
 
  
 
-  // 1. ADD STATE FOR EMPLOYEE NAME
+//   // 1. ADD STATE FOR EMPLOYEE NAME
+//   // Default is empty or "Loading..." so it doesn't flash "Administrator" first
+//   const [employeeName, setEmployeeName] = useState("");
+//   const [userImage, setUserImage] = useState(null);
 
-  // Default is empty or "Loading..." so it doesn't flash "Administrator" first
+//   // If localStorage user doesn't include profile_image, try fetching fresh user record
+//   useEffect(() => {
+//     const tryFetchProfile = async () => {
+//       if (typeof window === "undefined") return;
+//       try {
+//         const stored = localStorage.getItem("user");
+//         if (!stored) return;
+//         const u = JSON.parse(stored);
+//         if (!u.id) return; // no id to fetch
 
-  const [employeeName, setEmployeeName] = useState("");
+//         const API_BASE = (process.env.NEXT_PUBLIC_API_URL || window.location.origin.replace(':3000', ':3001')).replace(/\/$/, '');
+//         const resp = await fetch(`${API_BASE}/api/users/${u.id}`);
+//         if (!resp.ok) return;
+//         const data = await resp.json();
+//         // server's getUserById now returns profile_image
+//         if (data.profile_image) {
+//           setUserImage(data.profile_image);
+//           // update localStorage copy so subsequent loads are faster
+//           const updated = { ...u, profile_image: data.profile_image };
+//           localStorage.setItem('user', JSON.stringify(updated));
+//         }
+//       } catch (err) {
+//         // silent
+//         console.debug('Could not fetch fresh profile image', err?.message || err);
+//       }
+//     };
 
-
-
-  // Responsive Logic
-
-  useEffect(() => {
-
-    const handleResize = () => {
-
-      if (window.innerWidth < 768) {
-
-        setIsOpen(false);
-
-      } else {
-
-        setIsOpen(true);
-
-      }
-
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-
-  }, []);
+//     tryFetchProfile();
+//   }, []);
 
 
 
-  // 2. FETCH EMPLOYEE NAME FROM LOCAL STORAGE
+//   // Responsive Logic
 
-  useEffect(() => {
+//   useEffect(() => {
 
-    if (typeof window !== "undefined") {
+//     const handleResize = () => {
 
-      try {
+//       if (window.innerWidth < 768) {
 
-        // Retrieve data. Ensure 'user' matches what you set in your Login page.
+//         setIsOpen(false);
 
-        const storedData = localStorage.getItem("user");
+//       } else {
+
+//         setIsOpen(true);
+
+//       }
+
+//     };
+
+//     handleResize();
+
+//     window.addEventListener("resize", handleResize);
+
+//     return () => window.removeEventListener("resize", handleResize);
+
+//   }, []);
+
+
+
+//   // 2. FETCH EMPLOYEE NAME FROM LOCAL STORAGE
+
+//   useEffect(() => {
+
+//     if (typeof window !== "undefined") {
+
+//       try {
+
+//         // Retrieve data. Ensure 'user' matches what you set in your Login page.
+
+//         const storedData = localStorage.getItem("user");
 
        
 
-        if (storedData) {
+//         if (storedData) {
 
-          const userObj = JSON.parse(storedData);
+//           const userObj = JSON.parse(storedData);
 
          
 
-          // Try to find the name property
+//           // Try to find the name property
 
-          const name = userObj.name || userObj.username || userObj.employeeName || "Employee";
+//           const name = userObj.name || userObj.username || userObj.employeeName || "Employee";
 
-          setEmployeeName(name);
+//           setEmployeeName(name);
+          
+//           if (userObj.profile_image) {
+//             setUserImage(userObj.profile_image);
+//           }
 
-        } else {
+//         } else {
 
-          setEmployeeName("Guest");
+//           setEmployeeName("Guest");
 
-        }
+//         }
 
-      } catch (error) {
+//       } catch (error) {
 
-        console.error("Error parsing user data:", error);
+//         console.error("Error parsing user data:", error);
 
-        setEmployeeName("Employee");
+//         setEmployeeName("Employee");
 
-      }
+//       }
 
-    }
+//     }
 
-  }, []);
+//   }, []);
 
 
 
-  const [openSubmenu, setOpenSubmenu] = useState(() => {
+//   const [openSubmenu, setOpenSubmenu] = useState(() => {
 
-    const activeParent = menuItems.find((item) =>
+//     const activeParent = menuItems.find((item) =>
 
-      item.submenu?.some((subItem) => subItem.href === pathname)
+//       item.submenu?.some((subItem) => subItem.href === pathname)
 
-    );
+//     );
 
-    return activeParent ? activeParent.label : null;
+//     return activeParent ? activeParent.label : null;
 
-  });
+//   });
 
 
 
-  const [searchTerm, setSearchTerm] = useState("");
+//   const [searchTerm, setSearchTerm] = useState("");
 
 
 
-  const handleSubmenuToggle = (label) => {
+//   const handleSubmenuToggle = (label) => {
 
-    setOpenSubmenu(openSubmenu === label ? null : label);
+//     setOpenSubmenu(openSubmenu === label ? null : label);
 
-  };
+//   };
 
 
 
-  const isParentActive = (item) => {
+//   const isParentActive = (item) => {
 
-    if (!item.href) return false;
+//     if (!item.href) return false;
 
-    return pathname.startsWith(item.href);
+//     return pathname.startsWith(item.href);
 
-  };
+//   };
 
 
 
-  return (
+//   return (
 
-    <>
+//     <>
 
-      {/* 0. MOBILE OVERLAY BACKDROP */}
+//       {/* 0. MOBILE OVERLAY BACKDROP */}
 
-      {isOpen && (
+//       {isOpen && (
 
-        <div
+//         <div
 
-          onClick={() => setIsOpen(false)}
+//           onClick={() => setIsOpen(false)}
 
-          className="fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity"
+//           className="fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity"
 
-        />
+//         />
 
-      )}
+//       )}
 
 
 
-      {/* 1. OPEN TRIGGER */}
+//       {/* 1. OPEN TRIGGER */}
 
-      <button
+//       <button
 
-        onClick={() => setIsOpen(true)}
+//         onClick={() => setIsOpen(true)}
 
-        className={`fixed top-3 left-4 z-50 p-2 text-white bg-gray-800 rounded-md shadow-lg hover:bg-gray-700 transition-all duration-300 ${
+//         className={`fixed top-3 left-4 z-50 p-2 text-white bg-gray-800 rounded-md shadow-lg hover:bg-gray-700 transition-all duration-300 ${
 
-          isOpen ? "opacity-0 pointer-events-none scale-75" : "opacity-100 scale-100"
+//           isOpen ? "opacity-0 pointer-events-none scale-75" : "opacity-100 scale-100"
 
-        }`}
+//         }`}
 
-        aria-label="Open Sidebar"
+//         aria-label="Open Sidebar"
 
-      >
+//       >
 
-        <Menu className="w-6 h-6" />
+//         <Menu className="w-6 h-6" />
 
-      </button>
+//       </button>
 
 
 
-      {/* 2. SIDEBAR CONTAINER */}
+//       {/* 2. SIDEBAR CONTAINER */}
 
-      <aside
+//       <aside
 
-        className={`
+//         className={`
 
-          h-screen bg-gradient-to-b from-[#0f2027] via-[#203a43] to-[#2c5364] text-white
+//           h-screen bg-gradient-to-b from-[#0f2027] via-[#203a43] to-[#2c5364] text-white
 
-          fixed md:sticky top-0 left-0 z-40
+//           fixed md:sticky top-0 left-0 z-40
 
-          transition-all duration-300 ease-in-out
+//           transition-all duration-300 ease-in-out
 
-          flex flex-col overflow-hidden shrink-0 shadow-xl
+//           flex flex-col overflow-hidden shrink-0 shadow-xl
 
-          ${isOpen ? "w-64" : "w-0"}
+//           ${isOpen ? "w-64" : "w-0"}
 
-        `}
+//         `}
 
-      >
+//       >
 
-        <div className="w-64 flex flex-col h-full">
+//         <div className="w-64 flex flex-col h-full">
 
          
 
-          {/* HEADER ROW */}
+//           {/* HEADER ROW */}
 
-          <div className="flex items-center justify-between p-4 border-b border-gray-700">
+//           <div className="flex items-center justify-between p-4 border-b border-gray-700">
 
-            <div className="flex items-center gap-3">
+//             <div className="flex items-center gap-3">
 
-              <ProfileIcon />
+//               <ProfileIcon />
 
-              <h1 className="text-xl font-bold whitespace-nowrap">Admin Panel</h1>
+//               <h1 className="text-xl font-bold whitespace-nowrap">Admin Panel</h1>
 
-            </div>
-
-
-
-            <button
-
-              onClick={() => setIsOpen(false)}
-
-              className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
-
-              aria-label="Close Sidebar"
-
-            >
-
-              <X className="w-5 h-5" />
-
-            </button>
-
-          </div>
+//             </div>
 
 
 
-          {/* 3. PROFILE SECTION (UPDATED) */}
+//             <button
 
-          <div className="flex items-center p-4 gap-4 border-b border-gray-700">
+//               onClick={() => setIsOpen(false)}
 
-            <Profile />
+//               className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
 
-            <div className="whitespace-nowrap overflow-hidden">
+//               aria-label="Close Sidebar"
 
-              {/* Main Title stays static */}
+//             >
 
-              <h3 className="font-semibold">Shri Garage</h3>
+//               <X className="w-5 h-5" />
+
+//             </button>
+
+//           </div>
+
+
+
+//           {/* 3. PROFILE SECTION (UPDATED) */}
+
+//           <div className="flex items-center p-4 gap-4 border-b border-gray-700">
+
+//             <Profile userImage={userImage} />
+
+//             <div className="whitespace-nowrap overflow-hidden">
+
+//               {/* Main Title stays static */}
+
+//               <h3 className="font-semibold">Shri Garage</h3>
 
              
 
-              {/* Subtitle is now the dynamic Employee Name */}
+//               {/* Subtitle is now the dynamic Employee Name */}
 
-              <p className="text-sm text-gray-300 capitalize">
+//               <p className="text-sm text-gray-300 capitalize">
 
-                {employeeName || "Administrator"}
+//                 {employeeName || "Administrator"}
 
-              </p>
+//               </p>
 
+//             </div>
+
+//           </div>
+
+
+
+//           {/* Scrollable Content */}
+
+//           <div className="flex-1 flex flex-col overflow-y-auto">
+
+//             <div className="p-4">
+
+//               <div className="relative">
+
+//                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+
+//                 <input
+
+//                   type="search"
+
+//                   name="search"
+
+//                   placeholder={"Search..."}
+
+//                   className="w-full bg-gray-800 border border-gray-700 rounded-md pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+
+//                   value={searchTerm}
+
+//                   onChange={(e) => setSearchTerm(e.target.value)}
+
+//                 />
+
+//               </div>
+
+//             </div>
+
+
+
+//             {/* Navigation */}
+
+//             <nav className="flex-1 px-4 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-bg-gray-800 scrollbar-track-gray-900 pb-20">
+
+//               {menuItems.map((item) => {
+
+//                 const term = searchTerm.toLowerCase();
+
+//                 const parentMatches = item.label.toLowerCase().includes(term);
+
+//                 const childMatches =
+
+//                   item.submenu?.some((subItem) =>
+
+//                     subItem.label.toLowerCase().includes(term)
+
+//                   ) ?? false;
+
+
+
+//                 const isVisible =
+
+//                   searchTerm === "" || parentMatches || childMatches;
+
+
+
+//                 return (
+
+//                   <div
+
+//                     key={item.label}
+
+//                     className={`transition-all duration-300 ease-in-out overflow-hidden ${
+
+//                       isVisible ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+
+//                     }`}
+
+//                   >
+
+//                     <Link
+
+//                       href={item.submenu ? "#" : item.href}
+
+//                       onClick={
+
+//                         item.submenu
+
+//                           ? () => handleSubmenuToggle(item.label)
+
+//                           : undefined
+
+//                       }
+
+//                       className={`flex w-full items-center p-3 rounded-md transition-colors duration-200 whitespace-nowrap ${
+
+//                         isParentActive(item)
+
+//                           ? "bg-sky-500/20 text-white"
+
+//                           : "text-gray-300 hover:bg-gray-800 hover:text-white"
+
+//                       }`}
+
+//                     >
+
+//                       <item.icon className="w-5 h-5 mr-3 shrink-0" />
+
+//                       <span className="flex-1">{item.label}</span>
+
+//                       {item.isNew && (
+
+//                         <span className="ml-auto bg-red-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
+
+//                           New
+
+//                         </span>
+
+//                       )}
+
+//                       {item.submenu && (
+
+//                         <ChevronDown
+
+//                           className={`w-4 h-4 ml-auto shrink-0 transition-transform duration-300 ${
+
+//                             openSubmenu === item.label ||
+
+//                             (searchTerm && childMatches)
+
+//                               ? "rotate-180"
+
+//                               : ""
+
+//                           }`}
+
+//                         />
+
+//                       )}
+
+//                     </Link>
+
+
+
+//                     {item.submenu && (
+
+//                       <div
+
+//                         className={`grid overflow-hidden transition-all duration-300 ease-in-out ${
+
+//                           openSubmenu === item.label ||
+
+//                           (searchTerm && childMatches)
+
+//                             ? "grid-rows-[1fr] opacity-100"
+
+//                             : "grid-rows-[0fr] opacity-0"
+
+//                         }`}
+
+//                       >
+
+//                         <div className="overflow-hidden">
+
+//                           <ul className="pl-8 py-1 space-y-1">
+
+//                             {item.submenu.map((subItem) => (
+
+//                               <li key={subItem.label}>
+
+//                                 <Link
+
+//                                   href={subItem.href}
+
+//                                   className={`flex items-center px-3 py-2 text-sm rounded-md transition-colors whitespace-nowrap ${
+
+//                                     pathname === subItem.href
+
+//                                       ? "text-sky-400"
+
+//                                       : "text-gray-400 hover:text-white"
+
+//                                   }`}
+
+//                                 >
+
+//                                   <span className="w-1.5 h-1.5 mr-3 bg-gray-500 rounded-full"></span>
+
+//                                   {subItem.label}
+
+//                                 </Link>
+
+//                               </li>
+
+//                             ))}
+
+//                           </ul>
+
+//                         </div>
+
+//                       </div>
+
+//                     )}
+
+//                   </div>
+
+//                 );
+
+//               })}
+
+//             </nav>
+
+
+
+//             {/* Footer */}
+
+//             <div className="p-4 border-t border-gray-700">
+
+//               <Link
+
+//                 href="/Login"
+
+//                 className="flex w-full items-center p-3 text-gray-300 hover:bg-red-500/20 hover:text-red-400 rounded-md transition-colors duration-200 whitespace-nowrap"
+
+//               >
+
+//                 <LogOut className="w-5 h-5 mr-3" />
+
+//                 Logout
+
+//               </Link>
+
+//             </div>
+
+//           </div>
+
+//         </div>
+
+//       </aside>
+
+//     </>
+
+//   );
+
+// }
+
+
+
+
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  ChevronDown,
+  Briefcase,
+  WashingMachine,
+  Boxes,
+  Car,
+  Users,
+  BarChart3,
+  BookCopy,
+  FileText,
+  UserCog,
+  MessageSquareQuote,
+  LogOut,
+  Search,
+  Menu,
+  X,
+  User, // Imported generic User icon for fallback
+} from "lucide-react";
+
+// --- Configuration ---
+// This calculates the backend address (e.g., http://localhost:3001)
+const getApiBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== 'undefined') {
+    return window.location.origin.replace(':3000', ':3001');
+  }
+  return "http://localhost:3001";
+};
+
+const API_BASE = getApiBaseUrl().replace(/\/$/, '');
+
+// --- Menu Items (Same as before) ---
+const menuItems = [
+  {
+    label: "Job Cards",
+    icon: Briefcase,
+    href: "/jobcard",
+    submenu: [
+      { label: "Create New Job Card", href: "/Cards/layout" },
+      { label: "View All Job Cards", href: "/JobCardList/layout" },
+    ],
+  },
+  {
+    label: "Washing JobCard",
+    icon: WashingMachine,
+    href: "/Washing",
+    submenu: [
+      { label: "Create Washing Card", href: "/Washing/layout" },
+      { label: "View Washing Cards", href: "/JobWashingList/layout" },
+    ],
+  },
+  {
+    label: "Washing Card Service",
+    icon: WashingMachine,
+    href: "/Washing",
+    submenu: [
+      { label: "New Card", href: "/WashingServiceNewCard/layout" },
+      { label: "Washing Cards", href: "/WashingServicesCards/layout" },
+    ],
+  },
+  {
+    label: "Jobs/Spares/Oils Stock",
+    icon: Boxes,
+    href: "/stock/layout",
+    isNew: true,
+  },
+  {
+    label: "Make, Model, Variant",
+    icon: Car,
+    href: "/M_M_V/layout",
+  },
+  {
+    label: "Customers",
+    icon: Users,
+    href: "/Customers/layout",
+  },
+  {
+    label: "Reports & Search",
+    icon: BarChart3,
+    href: "/reports/layout",
+  },
+  {
+    label: "Balance Sheet (Ledger)",
+    icon: BookCopy,
+    href: "/Balance_sheet/layout",
+  },
+  {
+    label: "Quotations",
+    icon: FileText,
+    href: "/Quatation/layout",
+  },
+  {
+    label: "Staff Management",
+    icon: UserCog,
+    href: "/employee",
+    submenu: [
+      { label: "Add New Employee", href: "/StaffManageNewEmp/layout" },
+      { label: "Employees List", href: "/StaffManageEmp/layout" },
+    ],
+  },
+  {
+    label: "SMS Marketing",
+    icon: MessageSquareQuote,
+    href: "/SMS/layout",
+    isNew: true,
+    submenu: [
+      { label: "Send SMS", href: "/SMS/layout" },
+      { label: "SMS List", href: "/SendSMS/layout" },
+    ],
+  },
+];
+
+const ProfileIcon = () => (
+  <img
+    src="/miracle_logo.png"
+    alt="Company Logo"
+    className="w-12 h-12 object-contain"
+  />
+);
+
+// --- UPDATED PROFILE COMPONENT ---
+const Profile = ({ userImage }) => {
+  const [imgSrc, setImgSrc] = useState(null);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    // If no image is provided from DB, stop here (will show fallback icon)
+    // default to server-hosted default image when no userImage
+    const defaultUrl = `${API_BASE}/profile-logo.jpg`;
+    if (!userImage) {
+      setImgSrc(defaultUrl);
+      setHasError(false);
+      return;
+    }
+
+    // 1. Logic to fix path string coming from DB
+    let cleanPath = userImage;
+
+    // Remove "public" folder if your DB saves paths like "public/uploads/..."
+    cleanPath = cleanPath.replace(/^public[\\/]/, "");
+    
+    // Replace Windows backslashes (\) with forward slashes (/)
+    cleanPath = cleanPath.replace(/\\/g, "/");
+    
+    // Remove leading slash to ensure clean join
+    cleanPath = cleanPath.replace(/^\//, "");
+
+    // 2. Construct final URL
+    // If the image is a full URL (Google/Facebook), use it as is. 
+    // Otherwise, append to API_BASE.
+    const finalUrl = cleanPath.startsWith("http") 
+      ? cleanPath 
+      : `${API_BASE}/${cleanPath}`;
+
+    setImgSrc(finalUrl);
+    setHasError(false); // Reset error state on new image
+  }, [userImage]);
+
+  // If we have a valid source and no error, show the image
+  if (imgSrc && !hasError) {
+    return (
+      <img
+        src={imgSrc}
+        alt="User Profile"
+        onError={(e) => {
+          // if current src is not default, try default
+          const defaultUrlLocal = `${API_BASE}/profile-logo.jpg`;
+          if (e?.target?.src && !e.target.src.includes('profile-logo.jpg')) {
+            e.target.src = defaultUrlLocal;
+            e.target.dataset.fallbacked = '1';
+            setHasError(false);
+          } else {
+            setHasError(true);
+          }
+        }}
+        className="w-10 h-10 rounded-full object-cover border-2 border-gray-600 bg-gray-800"
+      />
+    );
+  }
+
+  // Fallback: Generic User Icon (Not the Miracle Logo)
+  return (
+    <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center border-2 border-gray-600">
+      <User className="w-6 h-6 text-gray-400" />
+    </div>
+  );
+};
+
+export default function Sidebar() {
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(true);
+
+  // User Data State
+  const [employeeName, setEmployeeName] = useState("");
+  const [userImage, setUserImage] = useState(null);
+
+  // Responsive Logic
+  useEffect(() => {
+    const handleResize = () => {
+      setIsOpen(window.innerWidth >= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // --- FETCH USER FROM DB ---
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (typeof window === "undefined") return;
+
+      try {
+        const stored = localStorage.getItem("user");
+        if (!stored) {
+          setEmployeeName("Guest");
+          return;
+        }
+
+        const u = JSON.parse(stored);
+        
+        // 1. Set immediate data from Local Storage (prevent flickering)
+        setEmployeeName(u.name || u.username || u.employeeName || "Employee");
+        if (u.profile_image) setUserImage(u.profile_image);
+
+        // 2. Fetch fresh data from API using the ID
+        if (u.id) {
+          const resp = await fetch(`${API_BASE}/api/users/${u.id}`);
+          if (resp.ok) {
+            const json = await resp.json();
+
+            // support both legacy and new response shapes
+            const payload = (json && json.data) ? json.data : json;
+
+            // Update name if changed
+            const freshName = payload.name || payload.username || payload.employeeName;
+            if (freshName) setEmployeeName(freshName);
+
+            // Update Image - server returns absolute `profileImage` when available
+            const imageUrl = payload.profileImage || payload.profile_image || null;
+            if (imageUrl) {
+              console.log('Fetched Image URL:', imageUrl);
+              setUserImage(imageUrl);
+              const updatedUser = { ...u, profile_image: imageUrl };
+              localStorage.setItem('user', JSON.stringify(updatedUser));
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching user details:", err);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const [openSubmenu, setOpenSubmenu] = useState(() => {
+    const activeParent = menuItems.find((item) =>
+      item.submenu?.some((subItem) => subItem.href === pathname)
+    );
+    return activeParent ? activeParent.label : null;
+  });
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSubmenuToggle = (label) => {
+    setOpenSubmenu(openSubmenu === label ? null : label);
+  };
+
+  const isParentActive = (item) => {
+    if (!item.href) return false;
+    return pathname.startsWith(item.href);
+  };
+
+  return (
+    <>
+      {/* MOBILE OVERLAY */}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity"
+        />
+      )}
+
+      {/* TRIGGER BUTTON */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className={`fixed top-3 left-4 z-50 p-2 text-white bg-gray-800 rounded-md shadow-lg hover:bg-gray-700 transition-all duration-300 ${
+          isOpen ? "opacity-0 pointer-events-none scale-75" : "opacity-100 scale-100"
+        }`}
+      >
+        <Menu className="w-6 h-6" />
+      </button>
+
+      {/* SIDEBAR */}
+      <aside
+        className={`
+          h-screen bg-gradient-to-b from-[#0f2027] via-[#203a43] to-[#2c5364] text-white
+          fixed md:sticky top-0 left-0 z-40
+          transition-all duration-300 ease-in-out
+          flex flex-col overflow-hidden shrink-0 shadow-xl
+          ${isOpen ? "w-64" : "w-0"}
+        `}
+      >
+        <div className="w-64 flex flex-col h-full">
+          
+          {/* HEADER */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-700">
+            <div className="flex items-center gap-3">
+              <ProfileIcon />
+              <h1 className="text-xl font-bold whitespace-nowrap">Admin Panel</h1>
             </div>
-
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-white/10"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
+          {/* PROFILE SECTION */}
+          <div className="flex items-center p-4 gap-4 border-b border-gray-700">
+            {/* The Profile component now strictly uses the DB image */}
+            <Profile userImage={userImage} />
+            <div className="whitespace-nowrap overflow-hidden">
+              <h3 className="font-semibold">Shri Garage</h3>
+              <p className="text-sm text-gray-300 capitalize">
+                {employeeName || "Administrator"}
+              </p>
+            </div>
+          </div>
 
-
-          {/* Scrollable Content */}
-
+          {/* SEARCH & MENU */}
           <div className="flex-1 flex flex-col overflow-y-auto">
-
             <div className="p-4">
-
               <div className="relative">
-
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-
                 <input
-
                   type="search"
-
-                  name="search"
-
-                  placeholder={"Search..."}
-
-                  className="w-full bg-gray-800 border border-gray-700 rounded-md pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
-
+                  placeholder="Search..."
+                  className="w-full bg-gray-800 border border-gray-700 rounded-md pl-10 pr-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
                   value={searchTerm}
-
                   onChange={(e) => setSearchTerm(e.target.value)}
-
                 />
-
               </div>
-
             </div>
 
-
-
-            {/* Navigation */}
-
-            <nav className="flex-1 px-4 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-bg-gray-800 scrollbar-track-gray-900 pb-20">
-
+            <nav className="flex-1 px-4 space-y-2 overflow-y-auto scrollbar-thin pb-20">
               {menuItems.map((item) => {
-
                 const term = searchTerm.toLowerCase();
-
                 const parentMatches = item.label.toLowerCase().includes(term);
-
-                const childMatches =
-
-                  item.submenu?.some((subItem) =>
-
+                const childMatches = item.submenu?.some((subItem) =>
                     subItem.label.toLowerCase().includes(term)
-
                   ) ?? false;
-
-
-
-                const isVisible =
-
-                  searchTerm === "" || parentMatches || childMatches;
-
-
+                const isVisible = searchTerm === "" || parentMatches || childMatches;
 
                 return (
-
                   <div
-
                     key={item.label}
-
-                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
-
+                    className={`transition-all duration-300 overflow-hidden ${
                       isVisible ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-
                     }`}
-
                   >
-
                     <Link
-
                       href={item.submenu ? "#" : item.href}
-
-                      onClick={
-
-                        item.submenu
-
-                          ? () => handleSubmenuToggle(item.label)
-
-                          : undefined
-
-                      }
-
-                      className={`flex w-full items-center p-3 rounded-md transition-colors duration-200 whitespace-nowrap ${
-
-                        isParentActive(item)
-
-                          ? "bg-sky-500/20 text-white"
-
-                          : "text-gray-300 hover:bg-gray-800 hover:text-white"
-
+                      onClick={item.submenu ? () => handleSubmenuToggle(item.label) : undefined}
+                      className={`flex w-full items-center p-3 rounded-md transition-colors ${
+                        isParentActive(item) ? "bg-sky-500/20 text-white" : "text-gray-300 hover:bg-gray-800"
                       }`}
-
                     >
-
                       <item.icon className="w-5 h-5 mr-3 shrink-0" />
-
                       <span className="flex-1">{item.label}</span>
-
                       {item.isNew && (
-
-                        <span className="ml-auto bg-red-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
-
-                          New
-
-                        </span>
-
+                        <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">New</span>
                       )}
-
                       {item.submenu && (
-
-                        <ChevronDown
-
-                          className={`w-4 h-4 ml-auto shrink-0 transition-transform duration-300 ${
-
-                            openSubmenu === item.label ||
-
-                            (searchTerm && childMatches)
-
-                              ? "rotate-180"
-
-                              : ""
-
-                          }`}
-
-                        />
-
+                        <ChevronDown className={`w-4 h-4 ml-auto transition-transform ${openSubmenu === item.label ? "rotate-180" : ""}`} />
                       )}
-
                     </Link>
 
-
-
                     {item.submenu && (
-
-                      <div
-
-                        className={`grid overflow-hidden transition-all duration-300 ease-in-out ${
-
-                          openSubmenu === item.label ||
-
-                          (searchTerm && childMatches)
-
-                            ? "grid-rows-[1fr] opacity-100"
-
-                            : "grid-rows-[0fr] opacity-0"
-
-                        }`}
-
-                      >
-
+                      <div className={`grid overflow-hidden transition-all duration-300 ${openSubmenu === item.label || (searchTerm && childMatches) ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                         <div className="overflow-hidden">
-
                           <ul className="pl-8 py-1 space-y-1">
-
                             {item.submenu.map((subItem) => (
-
                               <li key={subItem.label}>
-
-                                <Link
-
-                                  href={subItem.href}
-
-                                  className={`flex items-center px-3 py-2 text-sm rounded-md transition-colors whitespace-nowrap ${
-
-                                    pathname === subItem.href
-
-                                      ? "text-sky-400"
-
-                                      : "text-gray-400 hover:text-white"
-
-                                  }`}
-
-                                >
-
+                                <Link href={subItem.href} className={`flex items-center px-3 py-2 text-sm rounded-md transition-colors ${pathname === subItem.href ? "text-sky-400" : "text-gray-400 hover:text-white"}`}>
                                   <span className="w-1.5 h-1.5 mr-3 bg-gray-500 rounded-full"></span>
-
                                   {subItem.label}
-
                                 </Link>
-
                               </li>
-
                             ))}
-
                           </ul>
-
                         </div>
-
                       </div>
-
                     )}
-
                   </div>
-
                 );
-
               })}
-
             </nav>
 
-
-
-            {/* Footer */}
-
             <div className="p-4 border-t border-gray-700">
-
-              <Link
-
-                href="/Login"
-
-                className="flex w-full items-center p-3 text-gray-300 hover:bg-red-500/20 hover:text-red-400 rounded-md transition-colors duration-200 whitespace-nowrap"
-
-              >
-
+              <Link href="/Login" className="flex w-full items-center p-3 text-gray-300 hover:bg-red-500/20 hover:text-red-400 rounded-md transition-colors">
                 <LogOut className="w-5 h-5 mr-3" />
-
                 Logout
-
               </Link>
-
             </div>
-
           </div>
-
         </div>
-
       </aside>
-
     </>
-
   );
-
 }

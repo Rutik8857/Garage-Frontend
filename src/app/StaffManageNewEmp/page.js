@@ -6,7 +6,8 @@
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Link from 'next/link';
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAlert } from '../context/AlertContext';
 
 // --- Reusable Form Field Component ---
@@ -42,41 +43,70 @@ export default function AddUserPage() {
         password: '',
         confirmPassword: '',
     });
+
+    // 1. NEW: State for Image
+    const [imageFile, setImageFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
     
     // Add new state for loading and messages
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
-    const { showAlert, showConfirm } = useAlert();
+    const { showAlert } = useAlert();
+
+
+
+    // Cleanup preview URL to prevent memory leaks
+    useEffect(() => {
+        return () => {
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
+        };
+    }, [previewUrl]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    // 2. NEW: Handle Image Selection
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            setPreviewUrl(URL.createObjectURL(file));
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Reset messages
-        setError(null);
-        setSuccess(null);
         setIsLoading(true);
 
         // Client-side password check
         if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match.');
+            showAlert('Passwords do not match.', 'error');
             setIsLoading(false);
             return;
         }
 
         try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            let body;
+            let headers = {};
+
+            if (imageFile) {
+                const payload = new FormData();
+                Object.keys(formData).forEach((key) => payload.append(key, formData[key]));
+                payload.append('profile_image', imageFile);
+                body = payload;
+            } else {
+                body = JSON.stringify(formData);
+                headers['Content-Type'] = 'application/json';
+            }
+
             // Update the URL to use port 3001
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
+            const response = await fetch(`${apiUrl}/api/users`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                headers: headers,
+                body: body,
             });
 
             // Check if the response is actually JSON before trying to parse it
@@ -86,11 +116,13 @@ export default function AddUserPage() {
                 // --- SUCCESS CASE ---
                 // We got JSON and a 2xx status
                 const data = await response.json();
-                setSuccess(`${data.message} The new user can now log in with their credentials. If they forget their password, they can use the 'Forgot Password' feature on the login page.`);
+                showAlert(`${data.message} The new user can now log in with their credentials.`, 'success');
                 // Optionally reset form
                 setFormData({
                     name: '', email: '', mobile_number: '', password: '', confirmPassword: ''
                 });
+                setImageFile(null);
+                setPreviewUrl(null);
             } else if (!response.ok) {
                 // --- ERROR CASE (4xx, 5xx) ---
                 // The server responded with an error. Let's see if it's JSON or HTML.
@@ -116,11 +148,11 @@ export default function AddUserPage() {
             
             // Show a user-friendly error
             if (err.message.includes('Failed to fetch')) {
-                setError('Network error. Is the backend server running on port 3001?');
+                showAlert('Network error. Is the backend server running on port 3001?', 'error');
             } else if (err.message.includes('invalid response')) {
-                setError(err.message); // Our custom error
+                showAlert(err.message, 'error'); // Our custom error
             } else {
-                setError(err.message); // All other errors
+                showAlert(err.message, 'error'); // All other errors
             }
         } finally {
             setIsLoading(false);
@@ -171,18 +203,6 @@ export default function AddUserPage() {
                     {/* Form Container */}
                     <form onSubmit={handleSubmit} className="p-6">
                         
-                        {/* --- Display Messages --- */}
-                        {error && (
-                            <div className="mb-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
-                                {error}
-                            </div>
-                        )}
-                        {success && (
-                            <div className="mb-4 p-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
-                                {success}
-                            </div>
-                        )}
-
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <FormField label="Name" name="name" value={formData.name} onChange={handleChange} required />
                             <FormField label="Email address" type="email" name="email" value={formData.email} onChange={handleChange} required />
@@ -190,6 +210,37 @@ export default function AddUserPage() {
                             <FormField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} required />
             
                             <FormField label="Confirm Password" type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+
+
+                        <div className="flex flex-col">
+                                <label className="mb-1.5 text-sm font-medium text-gray-700">
+                                    Profile Image
+                                </label>
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        className="block w-full text-sm text-slate-500
+                                          file:mr-4 file:py-2.5 file:px-4
+                                          file:rounded-md file:border-0
+                                          file:text-sm file:font-semibold
+                                          file:bg-blue-50 file:text-blue-700
+                                          hover:file:bg-blue-100
+                                          border border-gray-300 rounded-md
+                                          cursor-pointer"
+                                    />
+                                    {previewUrl && (
+                                        <div className="h-10 w-10 rounded-full overflow-hidden border border-gray-300 flex-shrink-0">
+                                            <img 
+                                                src={previewUrl} 
+                                                alt="Preview" 
+                                                className="h-full w-full object-cover" 
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
 
                         <div className="mt-8 pt-6 border-t border-gray-200">

@@ -34,4 +34,4 @@ const Page = ({ children }) => {
   )
 }
 
-export default page
+export default Page
