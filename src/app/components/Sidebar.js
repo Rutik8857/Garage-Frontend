@@ -1,12 +1,4 @@
-
-
-
-
-
-
 // "use client";
-
-
 
 // import React, { useState, useEffect } from "react";
 
@@ -47,8 +39,6 @@
 //   X,
 
 // } from "lucide-react";
-
-
 
 // // --- (menuItems, ProfileIcon, Profile components remain exactly the same) ---
 
@@ -210,8 +200,6 @@
 
 // ];
 
-
-
 // const ProfileIcon = () => (
 
 //   <img
@@ -225,7 +213,6 @@
 //   />
 
 // );
-
 
 // const Profile = ({ userImage }) => {
 //   const getBaseUrl = () => {
@@ -282,23 +269,15 @@
 //   );
 // };
 
-
-
 // // --- (End of unchanged components) ---
-
-
 
 // export default function Sidebar() {
 
 //   const pathname = usePathname();
 
-
-
 //   // Initialize visible by default
 
 //   const [isOpen, setIsOpen] = useState(true);
-
- 
 
 //   // 1. ADD STATE FOR EMPLOYEE NAME
 //   // Default is empty or "Loading..." so it doesn't flash "Administrator" first
@@ -335,8 +314,6 @@
 //     tryFetchProfile();
 //   }, []);
 
-
-
 //   // Responsive Logic
 
 //   useEffect(() => {
@@ -363,8 +340,6 @@
 
 //   }, []);
 
-
-
 //   // 2. FETCH EMPLOYEE NAME FROM LOCAL STORAGE
 
 //   useEffect(() => {
@@ -377,20 +352,16 @@
 
 //         const storedData = localStorage.getItem("user");
 
-       
-
 //         if (storedData) {
 
 //           const userObj = JSON.parse(storedData);
-
-         
 
 //           // Try to find the name property
 
 //           const name = userObj.name || userObj.username || userObj.employeeName || "Employee";
 
 //           setEmployeeName(name);
-          
+
 //           if (userObj.profile_image) {
 //             setUserImage(userObj.profile_image);
 //           }
@@ -413,8 +384,6 @@
 
 //   }, []);
 
-
-
 //   const [openSubmenu, setOpenSubmenu] = useState(() => {
 
 //     const activeParent = menuItems.find((item) =>
@@ -427,19 +396,13 @@
 
 //   });
 
-
-
 //   const [searchTerm, setSearchTerm] = useState("");
-
-
 
 //   const handleSubmenuToggle = (label) => {
 
 //     setOpenSubmenu(openSubmenu === label ? null : label);
 
 //   };
-
-
 
 //   const isParentActive = (item) => {
 
@@ -448,8 +411,6 @@
 //     return pathname.startsWith(item.href);
 
 //   };
-
-
 
 //   return (
 
@@ -468,8 +429,6 @@
 //         />
 
 //       )}
-
-
 
 //       {/* 1. OPEN TRIGGER */}
 
@@ -490,8 +449,6 @@
 //         <Menu className="w-6 h-6" />
 
 //       </button>
-
-
 
 //       {/* 2. SIDEBAR CONTAINER */}
 
@@ -515,8 +472,6 @@
 
 //         <div className="w-64 flex flex-col h-full">
 
-         
-
 //           {/* HEADER ROW */}
 
 //           <div className="flex items-center justify-between p-4 border-b border-gray-700">
@@ -528,8 +483,6 @@
 //               <h1 className="text-xl font-bold whitespace-nowrap">Admin Panel</h1>
 
 //             </div>
-
-
 
 //             <button
 
@@ -547,8 +500,6 @@
 
 //           </div>
 
-
-
 //           {/* 3. PROFILE SECTION (UPDATED) */}
 
 //           <div className="flex items-center p-4 gap-4 border-b border-gray-700">
@@ -561,8 +512,6 @@
 
 //               <h3 className="font-semibold">Shri Garage</h3>
 
-             
-
 //               {/* Subtitle is now the dynamic Employee Name */}
 
 //               <p className="text-sm text-gray-300 capitalize">
@@ -574,8 +523,6 @@
 //             </div>
 
 //           </div>
-
-
 
 //           {/* Scrollable Content */}
 
@@ -607,8 +554,6 @@
 
 //             </div>
 
-
-
 //             {/* Navigation */}
 
 //             <nav className="flex-1 px-4 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-bg-gray-800 scrollbar-track-gray-900 pb-20">
@@ -627,13 +572,9 @@
 
 //                   ) ?? false;
 
-
-
 //                 const isVisible =
 
 //                   searchTerm === "" || parentMatches || childMatches;
-
-
 
 //                 return (
 
@@ -711,8 +652,6 @@
 
 //                     </Link>
 
-
-
 //                     {item.submenu && (
 
 //                       <div
@@ -781,8 +720,6 @@
 
 //             </nav>
 
-
-
 //             {/* Footer */}
 
 //             <div className="p-4 border-t border-gray-700">
@@ -815,9 +752,6 @@
 
 // }
 
-
-
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -846,13 +780,13 @@ import {
 // This calculates the backend address (e.g., http://localhost:3001)
 const getApiBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
-  if (typeof window !== 'undefined') {
-    return window.location.origin.replace(':3000', ':3001');
+  if (typeof window !== "undefined") {
+    return window.location.origin.replace(":3000", ":3001");
   }
   return "http://localhost:3001";
 };
 
-const API_BASE = getApiBaseUrl().replace(/\/$/, '');
+const API_BASE = getApiBaseUrl().replace(/\/$/, "");
 
 // --- Menu Items (Same as before) ---
 const menuItems = [
@@ -963,18 +897,18 @@ const Profile = ({ userImage }) => {
 
     // Remove "public" folder if your DB saves paths like "public/uploads/..."
     cleanPath = cleanPath.replace(/^public[\\/]/, "");
-    
+
     // Replace Windows backslashes (\) with forward slashes (/)
     cleanPath = cleanPath.replace(/\\/g, "/");
-    
+
     // Remove leading slash to ensure clean join
     cleanPath = cleanPath.replace(/^\//, "");
 
     // 2. Construct final URL
-    // If the image is a full URL (Google/Facebook), use it as is. 
+    // If the image is a full URL (Google/Facebook), use it as is.
     // Otherwise, append to API_BASE.
-    const finalUrl = cleanPath.startsWith("http") 
-      ? cleanPath 
+    const finalUrl = cleanPath.startsWith("http")
+      ? cleanPath
       : `${API_BASE}/${cleanPath}`;
 
     setImgSrc(finalUrl);
@@ -990,9 +924,9 @@ const Profile = ({ userImage }) => {
         onError={(e) => {
           // if current src is not default, try default
           const defaultUrlLocal = `${API_BASE}/profile-logo.jpg`;
-          if (e?.target?.src && !e.target.src.includes('profile-logo.jpg')) {
+          if (e?.target?.src && !e.target.src.includes("profile-logo.jpg")) {
             e.target.src = defaultUrlLocal;
-            e.target.dataset.fallbacked = '1';
+            e.target.dataset.fallbacked = "1";
             setHasError(false);
           } else {
             setHasError(true);
@@ -1042,7 +976,7 @@ export default function Sidebar() {
         }
 
         const u = JSON.parse(stored);
-        
+
         // 1. Set immediate data from Local Storage (prevent flickering)
         setEmployeeName(u.name || u.username || u.employeeName || "Employee");
         if (u.profile_image) setUserImage(u.profile_image);
@@ -1054,24 +988,35 @@ export default function Sidebar() {
             const json = await resp.json();
 
             // support both legacy and new response shapes
-            const payload = (json && json.data) ? json.data : json;
+            const payload = json && json.data ? json.data : json;
 
             // Update name if changed
-            const freshName = payload.name || payload.username || payload.employeeName;
+            const freshName =
+              payload.name || payload.username || payload.employeeName;
             if (freshName) setEmployeeName(freshName);
 
             // Update Image - server returns absolute `profileImage` when available
             // const imageUrl = payload.profileImage || payload.profile_image || null;
-            const imageUrl = user.profile_image
-  ? `${process.env.NEXT_PUBLIC_API_URL}${user.profile_image}`
-  : '/default-avatar.png';
-              // const imageUrl = `${process.env.NEXT_PUBLIC_API_URL}`;
+            // const imageUrl = user.profile_image
+            //   ? `${process.env.NEXT_PUBLIC_API_URL}${user.profile_image}`
+            //   : "/default-avatar.png";
+            // const imageUrl = `${process.env.NEXT_PUBLIC_API_URL}`;
+
+
+             // Prefer server-provided absolute `profileImage`, then relative `profile_image`.
+            const imageUrl =
+              payload?.profileImage ||
+              (payload?.profile_image
+                ? `${process.env.NEXT_PUBLIC_API_URL}${payload.profile_image}`
+                : null) ||
+              "/default-avatar.png";
+
 
             if (imageUrl) {
-              console.log('Fetched Image URL:', imageUrl);
+              console.log("Fetched Image URL:", imageUrl);
               setUserImage(imageUrl);
               const updatedUser = { ...u, profile_image: imageUrl };
-              localStorage.setItem('user', JSON.stringify(updatedUser));
+              localStorage.setItem("user", JSON.stringify(updatedUser));
             }
           }
         }
@@ -1115,7 +1060,9 @@ export default function Sidebar() {
       <button
         onClick={() => setIsOpen(true)}
         className={`fixed top-3 left-4 z-50 p-2 text-white bg-gray-800 rounded-md shadow-lg hover:bg-gray-700 transition-all duration-300 ${
-          isOpen ? "opacity-0 pointer-events-none scale-75" : "opacity-100 scale-100"
+          isOpen
+            ? "opacity-0 pointer-events-none scale-75"
+            : "opacity-100 scale-100"
         }`}
       >
         <Menu className="w-6 h-6" />
@@ -1132,12 +1079,13 @@ export default function Sidebar() {
         `}
       >
         <div className="w-64 flex flex-col h-full">
-          
           {/* HEADER */}
           <div className="flex items-center justify-between p-4 border-b border-gray-700">
             <div className="flex items-center gap-3">
               <ProfileIcon />
-              <h1 className="text-xl font-bold whitespace-nowrap">Admin Panel</h1>
+              <h1 className="text-xl font-bold whitespace-nowrap">
+                Admin Panel
+              </h1>
             </div>
             <button
               onClick={() => setIsOpen(false)}
@@ -1178,10 +1126,12 @@ export default function Sidebar() {
               {menuItems.map((item) => {
                 const term = searchTerm.toLowerCase();
                 const parentMatches = item.label.toLowerCase().includes(term);
-                const childMatches = item.submenu?.some((subItem) =>
+                const childMatches =
+                  item.submenu?.some((subItem) =>
                     subItem.label.toLowerCase().includes(term)
                   ) ?? false;
-                const isVisible = searchTerm === "" || parentMatches || childMatches;
+                const isVisible =
+                  searchTerm === "" || parentMatches || childMatches;
 
                 return (
                   <div
@@ -1192,28 +1142,54 @@ export default function Sidebar() {
                   >
                     <Link
                       href={item.submenu ? "#" : item.href}
-                      onClick={item.submenu ? () => handleSubmenuToggle(item.label) : undefined}
+                      onClick={
+                        item.submenu
+                          ? () => handleSubmenuToggle(item.label)
+                          : undefined
+                      }
                       className={`flex w-full items-center p-3 rounded-md transition-colors ${
-                        isParentActive(item) ? "bg-sky-500/20 text-white" : "text-gray-300 hover:bg-gray-800"
+                        isParentActive(item)
+                          ? "bg-sky-500/20 text-white"
+                          : "text-gray-300 hover:bg-gray-800"
                       }`}
                     >
                       <item.icon className="w-5 h-5 mr-3 shrink-0" />
                       <span className="flex-1">{item.label}</span>
                       {item.isNew && (
-                        <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">New</span>
+                        <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                          New
+                        </span>
                       )}
                       {item.submenu && (
-                        <ChevronDown className={`w-4 h-4 ml-auto transition-transform ${openSubmenu === item.label ? "rotate-180" : ""}`} />
+                        <ChevronDown
+                          className={`w-4 h-4 ml-auto transition-transform ${
+                            openSubmenu === item.label ? "rotate-180" : ""
+                          }`}
+                        />
                       )}
                     </Link>
 
                     {item.submenu && (
-                      <div className={`grid overflow-hidden transition-all duration-300 ${openSubmenu === item.label || (searchTerm && childMatches) ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                      <div
+                        className={`grid overflow-hidden transition-all duration-300 ${
+                          openSubmenu === item.label ||
+                          (searchTerm && childMatches)
+                            ? "grid-rows-[1fr] opacity-100"
+                            : "grid-rows-[0fr] opacity-0"
+                        }`}
+                      >
                         <div className="overflow-hidden">
                           <ul className="pl-8 py-1 space-y-1">
                             {item.submenu.map((subItem) => (
                               <li key={subItem.label}>
-                                <Link href={subItem.href} className={`flex items-center px-3 py-2 text-sm rounded-md transition-colors ${pathname === subItem.href ? "text-sky-400" : "text-gray-400 hover:text-white"}`}>
+                                <Link
+                                  href={subItem.href}
+                                  className={`flex items-center px-3 py-2 text-sm rounded-md transition-colors ${
+                                    pathname === subItem.href
+                                      ? "text-sky-400"
+                                      : "text-gray-400 hover:text-white"
+                                  }`}
+                                >
                                   <span className="w-1.5 h-1.5 mr-3 bg-gray-500 rounded-full"></span>
                                   {subItem.label}
                                 </Link>
@@ -1229,7 +1205,10 @@ export default function Sidebar() {
             </nav>
 
             <div className="p-4 border-t border-gray-700">
-              <Link href="/Login" className="flex w-full items-center p-3 text-gray-300 hover:bg-red-500/20 hover:text-red-400 rounded-md transition-colors">
+              <Link
+                href="/Login"
+                className="flex w-full items-center p-3 text-gray-300 hover:bg-red-500/20 hover:text-red-400 rounded-md transition-colors"
+              >
                 <LogOut className="w-5 h-5 mr-3" />
                 Logout
               </Link>
