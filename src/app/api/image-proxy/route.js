@@ -6,7 +6,7 @@ export async function GET(req) {
     const path = searchParams.get("path");
     if (!path) return new NextResponse("Missing path", { status: 400 });
 
-    const backend = (process.env.NEXT_PUBLIC_API_URL || "http://13.203.222.70:3001").replace(/\/$/, "");
+    const backend = (process.env.NEXT_PUBLIC_API_URL).replace(/\/$/, "");
 
     // Build remote URL. If caller provided an absolute URL, use it.
     const remoteUrl = path.startsWith("http") ? path : `${backend}/${path.replace(/^\//, "")}`;
