@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar'
 import MainDash from './main/page'
 
 
-const page = ({ children }) => {
+const Page = () => {
 
  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -34,4 +34,4 @@ const page = ({ children }) => {
   )
 }
 
-export default page
+export default Page

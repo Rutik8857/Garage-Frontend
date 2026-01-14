@@ -1061,7 +1061,12 @@ export default function Sidebar() {
             if (freshName) setEmployeeName(freshName);
 
             // Update Image - server returns absolute `profileImage` when available
-            const imageUrl = payload.profileImage || payload.profile_image || null;
+            // const imageUrl = payload.profileImage || payload.profile_image || null;
+            const imageUrl = user.profile_image
+  ? `${process.env.NEXT_PUBLIC_API_URL}${user.profile_image}`
+  : '/default-avatar.png';
+              // const imageUrl = `${process.env.NEXT_PUBLIC_API_URL}`;
+
             if (imageUrl) {
               console.log('Fetched Image URL:', imageUrl);
               setUserImage(imageUrl);
