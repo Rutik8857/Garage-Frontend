@@ -24,15 +24,17 @@ import {
 
 // --- Configuration ---
 // This calculates the backend address (e.g., http://localhost:3001)
-const getApiBaseUrl = () => {
-  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
-  if (typeof window !== "undefined") {
-    return window.location.origin.replace(":3000", ":3001");
-  }
-  return "http://localhost:3001";
-};
+// const getApiBaseUrl = () => {
+//   if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+//   if (typeof window !== "undefined") {
+//     return window.location.origin.replace(":3000", ":3001");
+//   }
+//   return "http://localhost:3001";
+// };
 
-const API_BASE = getApiBaseUrl().replace(/\/$/, "");
+
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
 
 // --- Menu Items (Same as before) ---
 const menuItems = [
@@ -264,39 +266,60 @@ export default function Sidebar() {
             // }
 
             // Use the top-level API_BASE defined earlier (computed from env or window).
-            const imageUrl = payload?.profileImage
-              ? payload.profileImage // already absolute (https)
-              : payload?.profile_image
-              ? `${API_BASE}${payload.profile_image.startsWith("/") ? "" : "/"}${payload.profile_image}`
-              : null;
+            // const imageUrl = payload?.profileImage
+            //   ? payload.profileImage // already absolute (https)
+            //   : payload?.profile_image
+            //   ? `${API_BASE}${payload.profile_image.startsWith("/") ? "" : "/"}${payload.profile_image}`
+            //   : null;
 
-            let finalImageUrl = imageUrl;
+            // let finalImageUrl = imageUrl;
 
             // If the page is served over HTTPS and the image URL is an insecure HTTP URL
             // pointing to an IP address (common in your backend), the browser will block
             // the request. In that case, route the image through our server-side proxy
             // at `/api/image-proxy?path=...` so it can be served over HTTPS.
-            try {
-              if (
-                typeof window !== "undefined" &&
-                window.location.protocol === "https:" &&
-                finalImageUrl
-              ) {
-                const parsed = new URL(finalImageUrl, window.location.origin);
-                const isIpHost = /^\d+\.\d+\.\d+\.\d+$/.test(parsed.hostname);
-                if (parsed.protocol === "http:" && isIpHost) {
-                  // Use the pathname + search as the proxy `path` parameter.
-                  const proxyPath = `${parsed.pathname}${parsed.search || ""}`;
-                  finalImageUrl = `/api/image-proxy?path=${encodeURIComponent(proxyPath)}`;
-                }
-              }
-            } catch (e) {
-              // If parsing fails, fall back to original imageUrl.
-            }
+            // try {
+            //   if (
+            //     typeof window !== "undefined" &&
+            //     window.location.protocol === "https:" &&
+            //     finalImageUrl
+            //   ) {
+            //     const parsed = new URL(finalImageUrl, window.location.origin);
+            //     const isIpHost = /^\d+\.\d+\.\d+\.\d+$/.test(parsed.hostname);
+            //     if (parsed.protocol === "http:" && isIpHost) {
+            //       // Use the pathname + search as the proxy `path` parameter.
+            //       const proxyPath = `${parsed.pathname}${parsed.search || ""}`;
+            //       finalImageUrl = `/api/image-proxy?path=${encodeURIComponent(proxyPath)}`;
+            //     }
+            //   }
+            // } catch (e) {
+            //   // If parsing fails, fall back to original imageUrl.
+            // }
 
-            if (finalImageUrl) {
-              setUserImage(finalImageUrl);
-            }
+  //           const imageUrl = payload?.profileImage
+  // ? payload.profileImage
+  // : payload?.profile_image
+  // ? `${API_BASE}${payload.profile_image.startsWith("/") ? "" : "/"}${payload.profile_image}`
+  // : null;
+
+            const imageUrl = payload?.profile_image
+  ? `${API_BASE}${payload.profile_image}`
+  : null;
+
+
+            setUserImage(imageUrl);
+
+
+// if (imageUrl) {
+//   setUserImage(imageUrl);
+// }
+
+
+
+
+            // if (finalImageUrl) {
+            //   setUserImage(finalImageUrl);
+            // }
           }
         }
       } catch (err) {
