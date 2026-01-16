@@ -423,7 +423,7 @@ export default function QuotationPage() {
                                                         </button> */}
 
                               <Link
-                                href={`/Quatation/edit/${item.id}`}
+                                href={`/Quatation/edit/${item.id}/layout`}
                                 className="flex items-center justify-center bg-teal-500 text-white px-3 py-1 rounded-md text-xs hover:bg-teal-600"
                               >
                                 <ShowIcon /> Edit

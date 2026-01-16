@@ -101,7 +101,7 @@ export default function JobWashingListPage() {
 
     const handleRowClick = (jobId) => {
         // Navigate to the frontend page for the washing job (not the backend API URL)
-        router.push(`/washing-jobs/${jobId}`);
+        router.push(`/washing-jobs/${jobId}/layout`);
     };
 
     const filteredJobs = jobs.filter(job => {

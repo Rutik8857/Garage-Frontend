@@ -59,7 +59,7 @@ export default function JobEditPage() {
 
   const handlePrevious = (e) => {
     e.preventDefault();
-    router.push(`/WashingServicesCards/layout`);
+    router.push(`/WashingServicesCards/${id}`);
   };
 
   const handleUpdate = async (e) => {
@@ -74,6 +74,7 @@ export default function JobEditPage() {
       if (!res.ok) throw new Error(data.message || "Update failed");
       // on success, navigate back to list or show message
       router.push('/WashingServicesCards/layout');
+      showAlert('JobCard updated successfully', 'success');
     } catch (err) {
       showAlert(err.message || 'Failed to update', 'error');
     }

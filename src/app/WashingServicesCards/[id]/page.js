@@ -16,8 +16,11 @@ export default function JobDetailsPage() {
 
 
   const [job, setJob] = useState({
+  vehicle_no: "",
   make: "",
-   model: "",
+  model: "",
+  customer_name: "",
+  mobile_number: "",
 });
 
 
@@ -26,7 +29,7 @@ export default function JobDetailsPage() {
     const fetchJob = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`http://localhost:3001/api/washing-jobs/${id}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/washing-jobs/${id}`);
         if (!res.ok) throw new Error("Failed to fetch job");
         const data = await res.json();
         if (data.success) setJob(data.data);
@@ -100,12 +103,12 @@ export default function JobDetailsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">Customer Name <span className="text-red-500">*</span></label>
-                <input type="text" name="customer_name" defaultValue={job.customer_name || ""} className="mt-1 block w-full border rounded p-2" />
+                <input type="text" name="customer_name" value={job.customer_name || ""} onChange={(e) => setJob({ ...job, customer_name: e.target.value })} className="mt-1 block w-full border rounded p-2" />
               </div>
 
               <div className="sm:col-span-2 lg:col-span-2">
                 <label className="block text-sm font-medium text-gray-700">Mobile Number <span className="text-red-500">*</span></label>
-                <input type="tel" name="mobile_number" defaultValue={job.mobile_number || ""} className="mt-1 block w-full border rounded p-2" />
+                <input type="tel" name="mobile_number" value={job.mobile_number || ""} onChange={(e) => setJob({ ...job, mobile_number: e.target.value })} className="mt-1 block w-full border rounded p-2" />
               </div>
             </div>
 
