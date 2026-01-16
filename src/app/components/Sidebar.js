@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import { usePathname } from "next/navigation";
 import {
   ChevronDown,
@@ -348,6 +349,15 @@ export default function Sidebar() {
     return pathname.startsWith(item.href);
   };
 
+
+   const handleLogout = () => {
+    // Clear user data from both storages to be safe
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('user');
+    // Redirect to login page
+    router.push('/login');
+  };
+
   return (
     <>
       {/* MOBILE OVERLAY */}
@@ -507,13 +517,12 @@ export default function Sidebar() {
             </nav>
 
             <div className="p-4 border-t border-gray-700">
-              <Link
-                href="/Login"
+              <button onClick={handleLogout}
                 className="flex w-full items-center p-3 text-gray-300 hover:bg-red-500/20 hover:text-red-400 rounded-md transition-colors"
               >
                 <LogOut className="w-5 h-5 mr-3" />
                 Logout
-              </Link>
+              </button>
             </div>
           </div>
         </div>

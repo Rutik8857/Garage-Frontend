@@ -9,6 +9,8 @@ import { useState } from 'react';
 // If they are in 'src/components' you might need '@/components/Footer'
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { useAlert } from "../context/AlertContext";
+
 // import Link from 'next/link';
 
 // --- IMPORTANT ---
@@ -18,6 +20,7 @@ const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/sms`;
 
 // Main component for the SMS Marketing page
 export default function SmsMarketingPage() {
+  const { showAlert } = useAlert();
   // --- State for all form fields ---
   const [sendOption, setSendOption] = useState('now');
   const [scheduledDate, setScheduledDate] = useState('2025-09-29'); // Matches your default
@@ -26,14 +29,12 @@ export default function SmsMarketingPage() {
 
   // --- State for loading and API feedback ---
   const [isLoading, setIsLoading] = useState(false);
-  const [feedback, setFeedback] = useState({ success: false, message: '' });
 
   // --- Form submission handler ---
   // Removed TypeScript type "FormEvent<HTMLFormElement>" from "event"
   const handleSubmit = async (event) => {
     event.preventDefault(); // Stop the page from reloading
     setIsLoading(true);
-    setFeedback({ success: false, message: '' }); // Clear old feedback
 
     // 1. Collect all data from state
     const formData = {
@@ -58,21 +59,18 @@ export default function SmsMarketingPage() {
 
       if (response.ok) {
         // Success! (e.g., 201 status code)
-        setFeedback({ success: true, message: result.message });
+        showAlert(result.message, 'success');
         // Reset the form after success
         setMessage('');
         setScheduledTime('');
       } else {
         // Error (e.g., 400 or 500 status code)
-        setFeedback({ success: false, message: result.message });
+        showAlert(result.message || 'Failed to send SMS', 'error');
       }
     } catch (error) {
       // 4. Handle network errors (e.g., backend is down)
       console.error('Fetch error:', error);
-      setFeedback({
-        success: false,
-        message: 'Could not connect to the server. Please try again.',
-      });
+      showAlert('Could not connect to the server. Please try again.', 'error');
     } finally {
       // 5. Stop the loading state
       setIsLoading(false);
@@ -243,20 +241,6 @@ export default function SmsMarketingPage() {
                   placeholder="Enter your SMS message here..." // Added placeholder
                 ></textarea>
               </div>
-
-              {/* --- NEW: Feedback Area --- */}
-              {/* This div will show success or error messages from the backend */}
-              {feedback.message && (
-                <div
-                  className={`p-4 rounded-md text-sm ${
-                    feedback.success
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
-                  }`}
-                >
-                  {feedback.message}
-                </div>
-              )}
 
               {/* --- MODIFIED: Send Button --- */}
               {/* Button is disabled and shows "Sending..." while loading */}
