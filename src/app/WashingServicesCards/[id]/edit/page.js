@@ -59,7 +59,7 @@ export default function JobEditPage() {
 
   const handlePrevious = (e) => {
     e.preventDefault();
-    router.push(`/WashingServicesCards/${id}`);
+    router.push(`/WashingServicesCards/${id}/layout`);
   };
 
   const handleUpdate = async (e) => {

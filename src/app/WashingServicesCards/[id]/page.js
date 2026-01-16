@@ -53,7 +53,8 @@ export default function JobDetailsPage() {
       customer_name: job?.customer_name || "",
       mobile_number: job?.mobile_number || "",
     }).toString();
-    router.push(`/WashingServicesCards/${id}/edit?${qs}`);
+    // router.push(`/WashingServicesCards/${id}/edit?${qs}`);
+    router.push(`/WashingServicesCards/${id}/edit/layout?${qs}`);
   };
 
   if (loading) return <div className="p-6">Loading...</div>;

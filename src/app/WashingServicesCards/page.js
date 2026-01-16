@@ -156,7 +156,7 @@ export default function WashingCardsPage() {
                               </span>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm">
-                              <Link href={`/WashingServicesCards/${job.id}`} className="text-blue-600 hover:text-blue-800 font-semibold flex items-center">
+                              <Link href={`/WashingServicesCards/${job.id}/layout`} className="text-blue-600 hover:text-blue-800 font-semibold flex items-center">
                                 More info <ArrowRightIcon />
                               </Link>
                             </td>
