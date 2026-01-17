@@ -286,7 +286,7 @@ export default function Sidebar() {
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity"
+          className="fixed inset-0 bg-black/50 z-20 md:hidden transition-opacity pointer-events-none"
         />
       )}
 

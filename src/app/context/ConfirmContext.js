@@ -3,9 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 const ConfirmContext = createContext();
 
-export const useConfirm = () => useContext(ConfirmContext);
-
-export const ConfirmProvider = ({ children }) => {
+export function ConfirmProvider({ children }) {
   const [confirmState, setConfirmState] = useState({
     isOpen: false,
     message: '',
@@ -13,47 +11,43 @@ export const ConfirmProvider = ({ children }) => {
     onCancel: null,
   });
 
-  const showConfirm = (message, onConfirm, onCancel) => {
+  const confirm = (message, onConfirm, onCancel) => {
     setConfirmState({
       isOpen: true,
       message,
-      onConfirm,
-      onCancel,
+      onConfirm: () => {
+        if (onConfirm) onConfirm();
+        setConfirmState((prev) => ({ ...prev, isOpen: false }));
+      },
+      onCancel: () => {
+        if (onCancel) onCancel();
+        setConfirmState((prev) => ({ ...prev, isOpen: false }));
+      },
     });
   };
 
-  const closeConfirm = () => {
+  const close = () => {
     setConfirmState((prev) => ({ ...prev, isOpen: false }));
   };
 
-  const handleConfirm = () => {
-    if (confirmState.onConfirm) confirmState.onConfirm();
-    closeConfirm();
-  };
-
-  const handleCancel = () => {
-    if (confirmState.onCancel) confirmState.onCancel();
-    closeConfirm();
-  };
-
   return (
-    <ConfirmContext.Provider value={{ showConfirm }}>
+    <ConfirmContext.Provider value={{ confirm }}>
       {children}
       {confirmState.isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full transform transition-all scale-100">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm mx-4">
             <h3 className="text-lg font-bold text-gray-900 mb-2">Confirm Action</h3>
             <p className="text-gray-600 mb-6">{confirmState.message}</p>
-            <div className="flex justify-end space-x-3">
+            <div className="flex justify-end gap-3">
               <button
-                onClick={handleCancel}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                onClick={confirmState.onCancel || close}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
               >
                 Cancel
               </button>
               <button
-                onClick={handleConfirm}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                onClick={confirmState.onConfirm}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors"
               >
                 Confirm
               </button>
@@ -63,4 +57,12 @@ export const ConfirmProvider = ({ children }) => {
       )}
     </ConfirmContext.Provider>
   );
-};
+}
+
+export function useConfirm() {
+  const context = useContext(ConfirmContext);
+  if (context === undefined) {
+    throw new Error('useConfirm must be used within a ConfirmProvider');
+  }
+  return context;
+}
