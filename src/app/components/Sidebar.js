@@ -195,6 +195,7 @@ const Profile = ({ userImage }) => {
 };
 
 export default function Sidebar() {
+  const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(true);
 
@@ -490,7 +491,7 @@ export default function Sidebar() {
                             : "grid-rows-[0fr] opacity-0"
                         }`}
                       >
-                        <div className="overflow-hidden">
+                       <div className="overflow-hidden">
                           <ul className="pl-8 py-1 space-y-1">
                             {item.submenu.map((subItem) => (
                               <li key={subItem.label}>
