@@ -356,7 +356,7 @@ export default function Sidebar() {
               </div>
             </div>
 
-            <nav className="flex-1 px-4 space-y-2 overflow-y-auto scrollbar-thin pb-20">
+            <nav className="flex-1 px-4 space-y-2 overflow-y-auto  pb-4">
               {menuItems.map((item) => {
                 const term = searchTerm.toLowerCase();
                 const parentMatches = item.label.toLowerCase().includes(term);
@@ -436,6 +436,7 @@ export default function Sidebar() {
                   </div>
                 );
               })}
+             
             </nav>
 
             <div className="p-4 border-t border-gray-700">
