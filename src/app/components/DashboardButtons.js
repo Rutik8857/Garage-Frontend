@@ -10,6 +10,7 @@ import Footer from './Footer';
 import Link from "next/link"; 
 import axios from 'axios';
 import { Maximize2, Minimize2, Filter, Calendar, X, PieChart as PieIcon } from 'lucide-react'; 
+import { useAlert } from '../context/AlertContext';
 
 const PIE_COLORS = {
   Pending: '#FFBB28',
@@ -120,6 +121,7 @@ export default function Dashboard() {
   const [pieLoading, setPieLoading] = useState(true);
   const [showPieFilter, setShowPieFilter] = useState(false);
   const [pieDateRange, setPieDateRange] = useState(getCurrentMonthRange());
+  const { showAlert } = useAlert();
 
   // Ensure a usable API base URL in the client: trim whitespace and fallback to window.origin
   const rawApiUrl = (process.env.NEXT_PUBLIC_API_URL || '').toString();
@@ -227,7 +229,7 @@ export default function Dashboard() {
     if (pieDateRange.startDate && pieDateRange.endDate) {
         setShowPieFilter(false); 
     } else {
-        alert("Please select both Start and End dates.");
+        showAlert("Please select both Start and End dates.", "warning");
     }
   };
 

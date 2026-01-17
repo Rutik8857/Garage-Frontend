@@ -10,6 +10,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 // 1. Import the validation hooks
 import { useFormValidation, FieldError } from '../hooks/useFormValidation';
+import { useAlert } from '../context/AlertContext';
+
 
 // --- Reusable Form Field Component ---
 const FormField = ({ label, required, children, className = "" }) => (
@@ -49,6 +51,7 @@ export default function NewWashingCardPage() {
     customer_name: { required: true, message: 'Customer Name is required' },
     mobile_number: { required: true, message: 'Mobile Number is required' },
   });
+  const { showAlert } = useAlert();
 
   const [formData, setFormData] = useState({
     vehicle_no: "MH27AB1234",
@@ -85,6 +88,7 @@ export default function NewWashingCardPage() {
     
     // 4. Validate before proceeding
     if (!validate(formData)) {
+      showAlert('Please correct the errors in the form.', 'error');
       setLoading(false);
       return; 
     }

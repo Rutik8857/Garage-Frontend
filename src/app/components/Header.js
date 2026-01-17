@@ -19,9 +19,13 @@ import {
   Car,
   Users
 } from "lucide-react";
+import { useAlert } from '../context/AlertContext';
+import { useConfirm } from '../context/ConfirmContext';
 
 export default function Header() {
   const router = useRouter();
+  const { showAlert } = useAlert();
+  const { confirm } = useConfirm();
   const [userName, setUserName] = useState("Admin");
   const [currentDate, setCurrentDate] = useState(null);
 
@@ -55,11 +59,14 @@ export default function Header() {
 
   // --- SAFE LOGOUT HANDLER ---
   const handleLogout = () => {
-    // Clear user data from both storages to be safe
-    localStorage.removeItem('user');
-    sessionStorage.removeItem('user');
-    // Redirect to login page
-    router.push('/login');
+    confirm('Are you sure you want to logout?', () => {
+      // Clear user data from both storages to be safe
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
+      showAlert('Logged out successfully', 'success');
+      // Redirect to login page
+      router.push('/login');
+    });
   };
 
   // --- REUSABLE COMPONENT FOR THE HOVER EFFECT ---

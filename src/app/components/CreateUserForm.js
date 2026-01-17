@@ -22,6 +22,7 @@ export default function CreateUserForm() {
       }
       const created = await res.json();
       console.log('Created user', created);
+      showAlert('User created successfully', 'success');
       setName('');
       setEmail('');
       // notify other components (UsersListClient) to update without a full reload

@@ -22,6 +22,8 @@ import {
   X,
   User, // Imported generic User icon for fallback
 } from "lucide-react";
+import { useAlert } from '../context/AlertContext';
+import { useConfirm } from '../context/ConfirmContext';
 
 
 
@@ -185,6 +187,8 @@ const Profile = ({ userImage }) => {
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
+  const { showAlert } = useAlert();
+  const { confirm } = useConfirm();
   const [isOpen, setIsOpen] = useState(true);
 
   // User Data State
@@ -266,11 +270,14 @@ export default function Sidebar() {
 
 
    const handleLogout = () => {
-    // Clear user data from both storages to be safe
-    localStorage.removeItem('user');
-    sessionStorage.removeItem('user');
-    // Redirect to login page
-    router.push('/login');
+    confirm('Are you sure you want to logout?', () => {
+      // Clear user data from both storages to be safe
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
+      showAlert('Logged out successfully', 'success');
+      // Redirect to login page
+      router.push('/login');
+    });
   };
 
   return (
