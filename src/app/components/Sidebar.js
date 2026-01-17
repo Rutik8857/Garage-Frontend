@@ -23,19 +23,10 @@ import {
   User, // Imported generic User icon for fallback
 } from "lucide-react";
 
-// --- Configuration ---
-// This calculates the backend address (e.g., http://localhost:3001)
-// const getApiBaseUrl = () => {
-//   if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
-//   if (typeof window !== "undefined") {
-//     return window.location.origin.replace(":3000", ":3001");
-//   }
-//   return "http://localhost:3001";
-// };
 
 
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001").replace(/\/$/, "");
 
 // --- Menu Items (Same as before) ---
 const menuItems = [
@@ -134,9 +125,8 @@ const Profile = ({ userImage }) => {
   useEffect(() => {
     // If no image is provided from DB, stop here (will show fallback icon)
     // default to server-hosted default image when no userImage
-    const defaultUrl = `${API_BASE}/profile-logo.jpg`;
     if (!userImage) {
-      setImgSrc(defaultUrl);
+      setImgSrc(null);
       setHasError(false);
       return;
     }
@@ -144,11 +134,19 @@ const Profile = ({ userImage }) => {
     // 1. Logic to fix path string coming from DB
     let cleanPath = userImage;
 
-    // Remove "public" folder if your DB saves paths like "public/uploads/..."
-    cleanPath = cleanPath.replace(/^public[\\/]/, "");
+    // FIX: If the DB value is the default logo, serve it locally from frontend
+    // This prevents requesting it from the backend and causing ORB/404 errors
+    if (cleanPath.includes("profile-logo.jpg")) {
+      setImgSrc("/profile-logo.jpg");
+      setHasError(false);
+      return;
+    }
 
-    // Replace Windows backslashes (\) with forward slashes (/)
+    // 1. Normalize slashes first (handle Windows paths from DB)
     cleanPath = cleanPath.replace(/\\/g, "/");
+
+    // 2. Remove "public" folder if present at the start (e.g. "public/uploads/..." or "/public/...")
+    cleanPath = cleanPath.replace(/^\/?public\//, "");
 
     // Remove leading slash to ensure clean join
     cleanPath = cleanPath.replace(/^\//, "");
@@ -170,17 +168,7 @@ const Profile = ({ userImage }) => {
       <img
         src={imgSrc}
         alt="User Profile"
-        onError={(e) => {
-          // if current src is not default, try default
-          const defaultUrlLocal = `${API_BASE}/profile-logo.jpg`;
-          if (e?.target?.src && !e.target.src.includes("profile-logo.jpg")) {
-            e.target.src = defaultUrlLocal;
-            e.target.dataset.fallbacked = "1";
-            setHasError(false);
-          } else {
-            setHasError(true);
-          }
-        }}
+        onError={() => setHasError(true)}
         className="w-10 h-10 rounded-full object-cover border-2 border-gray-600 bg-gray-800"
       />
     );
@@ -245,83 +233,9 @@ export default function Sidebar() {
               payload.name || payload.username || payload.employeeName;
             if (freshName) setEmployeeName(freshName);
 
-            // Update Image - server returns absolute `profileImage` when available
-            // const imageUrl = payload.profileImage || payload.profile_image || null;
-            // const imageUrl = user.profile_image
-            //   ? `${process.env.NEXT_PUBLIC_API_URL}${user.profile_image}`
-            //   : "/default-avatar.png";
-            // const imageUrl = `${process.env.NEXT_PUBLIC_API_URL}`;
-
-            // Prefer server-provided absolute `profileImage`, then relative `profile_image`.
-            // const imageUrl =
-            //   payload?.profileImage ||
-            //   (payload?.profile_image
-            //     ? `${process.env.NEXT_PUBLIC_API_URL}${payload.profile_image}`
-            //     : null) ||
-            //   "/default-avatar.png";
-
-            // if (imageUrl) {
-            //   console.log("Fetched Image URL:", imageUrl);
-            //   setUserImage(imageUrl);
-            //   const updatedUser = { ...u, profile_image: imageUrl };
-            //   localStorage.setItem("user", JSON.stringify(updatedUser));
-            // }
-
-            // Use the top-level API_BASE defined earlier (computed from env or window).
-            // const imageUrl = payload?.profileImage
-            //   ? payload.profileImage // already absolute (https)
-            //   : payload?.profile_image
-            //   ? `${API_BASE}${payload.profile_image.startsWith("/") ? "" : "/"}${payload.profile_image}`
-            //   : null;
-
-            // let finalImageUrl = imageUrl;
-
-            // If the page is served over HTTPS and the image URL is an insecure HTTP URL
-            // pointing to an IP address (common in your backend), the browser will block
-            // the request. In that case, route the image through our server-side proxy
-            // at `/api/image-proxy?path=...` so it can be served over HTTPS.
-            // try {
-            //   if (
-            //     typeof window !== "undefined" &&
-            //     window.location.protocol === "https:" &&
-            //     finalImageUrl
-            //   ) {
-            //     const parsed = new URL(finalImageUrl, window.location.origin);
-            //     const isIpHost = /^\d+\.\d+\.\d+\.\d+$/.test(parsed.hostname);
-            //     if (parsed.protocol === "http:" && isIpHost) {
-            //       // Use the pathname + search as the proxy `path` parameter.
-            //       const proxyPath = `${parsed.pathname}${parsed.search || ""}`;
-            //       finalImageUrl = `/api/image-proxy?path=${encodeURIComponent(proxyPath)}`;
-            //     }
-            //   }
-            // } catch (e) {
-            //   // If parsing fails, fall back to original imageUrl.
-            // }
-
-  //           const imageUrl = payload?.profileImage
-  // ? payload.profileImage
-  // : payload?.profile_image
-  // ? `${API_BASE}${payload.profile_image.startsWith("/") ? "" : "/"}${payload.profile_image}`
-  // : null;
-
-            const imageUrl = payload?.profile_image
-  ? `${API_BASE}${payload.profile_image}`
-  : null;
-
-
+            // Update Image - Get raw path from DB (support both naming conventions)
+            const imageUrl = payload?.profile_image || payload?.profileImage || null;
             setUserImage(imageUrl);
-
-
-// if (imageUrl) {
-//   setUserImage(imageUrl);
-// }
-
-
-
-
-            // if (finalImageUrl) {
-            //   setUserImage(finalImageUrl);
-            // }
           }
         }
       } catch (err) {
